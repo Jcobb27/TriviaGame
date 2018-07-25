@@ -26,4 +26,10 @@ h1 {
 }
 #main-page {
     display: none;
+    font-family: 'Michroma', cursive;
+    font-size: 30px;
+    text-align: center;
+}
+.answers {
+    font-size: 20px;
 }

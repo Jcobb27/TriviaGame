@@ -1,16 +1,20 @@
 $(document).ready(function () {
+    //Hide main page and show start page
     $('#main-page').css('display', 'none');
     $('#start-page').css('display', 'block');
 
+    //On click start, show main page
     $("#startButton").click(function () {
         $("#start-page").hide();
         $("#main-page").show();
     });
 
+    //Global variables
     var correct = 0;
     var incorrect = 0;
     var unanswered = 0;
 
+    //Question and answer bank stored in an object
     var questionBank = [
         {
             question: "What is the name of our galaxy?",
@@ -59,8 +63,18 @@ $(document).ready(function () {
             question: "Which planet takes almost 30 Earth years to orbit the sun?",
             choices: ["Saturn", "Jupiter", "Uranus", "Neptune"],
             correct: 0
-        },
+        }
     ];
+
+
+    for (var i = 0; i < questionBank.length; i++) {
+        $("#QABody").append("<p>" + questionBank[i].question + "</p>");
+        for (var x = 0; x < questionBank[i].choices.length; x++) {
+            $("#QABody").append("<label class='radio-inline answers'><input type='radio' name='optradio' checked>" + questionBank[i].choices[x] + "</label>");
+        }
+        $("#QABody").append("<br><br>");
+    }
+
 
     console.log(questionBank[0].question);
     console.log(questionBank[0].choices[1]);
