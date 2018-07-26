@@ -94,16 +94,17 @@ $(document).ready(function () {
                 console.log("correct: " + correct);
                 checked = true;
             }
-            else if (userInput !== questionBank[i].correct) {
+            else if (userInput >=0 && userInput <= 3 && userInput !== questionBank[i].correct) {
                 incorrect++;
                 console.log("Incorrect: " + incorrect);
                 checked = true;
             }
+            else {
+                unanswered++;
+                console.log("Unanswered: " + unanswered);
+            }
         }
-        if (checked == false) {
-            unanswered++;
-            console.log("Unanswered: " + unanswered);
-        }
+        
 
         //show results on end page
         $("#end-page").append("Correct answers: " + correct + "<br>");
