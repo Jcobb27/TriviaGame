@@ -4,17 +4,20 @@ $(document).ready(function () {
     $('#end-page').css('display', 'none');
     $('#start-page').css('display', 'block');
 
-    //On click start, show main page
+    //On click start, show main page and start timer
     $("#startButton").click(function () {
         $("#start-page").hide();
         $("#main-page").show();
+        run();
     });
 
     //Global variables
     var correct = 0;
     var incorrect = 0;
     var unanswered = 0;
-    var checked = false;
+    //set number counter to 120
+    var number = 120;
+    var intervalId;
 
     //Question and answer bank stored in an object
     var questionBank = [
@@ -84,28 +87,59 @@ $(document).ready(function () {
 
     //On click done...
     $("#doneButton").click(function () {
-        //capture user input
-        for (var i = 0; i < questionBank.length; i++) {
-            var userInput = $('input[name= group' + i + ']:checked').val();
-            console.log("input: " + userInput);
-            //check if user input is correct or incorrect
-            if (userInput == questionBank[i].correct) {
-                correct++;
-                console.log("correct: " + correct);
-                checked = true;
-            }
-            else if (userInput >=0 && userInput <= 3 && userInput !== questionBank[i].correct) {
-                incorrect++;
-                console.log("Incorrect: " + incorrect);
-                checked = true;
-            }
-            else {
-                unanswered++;
-                console.log("Unanswered: " + unanswered);
-            }
-        }
-        
+        //run function to capture user input 
+        captureInput();
+        //run end game function
+        endGame();
+    })
 
+    //function for capturing user input 
+    function captureInput() {
+    for (var i = 0; i < questionBank.length; i++) {
+        var userInput = $('input[name= group' + i + ']:checked').val();
+        console.log("input: " + userInput);
+        //check if user input is correct, incorrect, or unanswered
+        if (userInput == questionBank[i].correct) {
+            correct++;
+            console.log("correct: " + correct);
+        }
+        else if (userInput >= 0 && userInput <= 3 && userInput !== questionBank[i].correct) {
+            incorrect++;
+            console.log("Incorrect: " + incorrect);
+        }
+        else {
+            unanswered++;
+            console.log("Unanswered: " + unanswered);
+        }
+    }}
+
+    //run function for timer
+    function run() {
+        clearInterval(intervalId);
+        intervalId = setInterval(decrement, 1000);
+    }
+
+    //  The decrement function for timer
+    function decrement() {
+        number--;
+        $("#timer").html(number);
+        //  Once number hits zero...
+        if (number === 0) {
+            //run stop function
+            stop();
+            //run function to capture user input
+            captureInput();
+            //  Run end game function
+            endGame();
+        }
+    }
+
+    //  The stop function for timer
+    function stop() {
+        clearInterval(intervalId);
+    }
+
+    function endGame() {
         //show results on end page
         $("#end-page").append("Correct answers: " + correct + "<br>");
         $("#end-page").append("Incorrect answers: " + incorrect + "<br>");
@@ -113,7 +147,6 @@ $(document).ready(function () {
         //hide main page and show end page
         $("#main-page").hide();
         $("#end-page").show();
+    }
 
-
-    })
 });
