@@ -95,23 +95,24 @@ $(document).ready(function () {
 
     //function for capturing user input 
     function captureInput() {
-    for (var i = 0; i < questionBank.length; i++) {
-        var userInput = $('input[name= group' + i + ']:checked').val();
-        console.log("input: " + userInput);
-        //check if user input is correct, incorrect, or unanswered
-        if (userInput == questionBank[i].correct) {
-            correct++;
-            console.log("correct: " + correct);
+        for (var i = 0; i < questionBank.length; i++) {
+            var userInput = $('input[name= group' + i + ']:checked').val();
+            console.log("input: " + userInput);
+            //check if user input is correct, incorrect, or unanswered
+            if (userInput == questionBank[i].correct) {
+                correct++;
+                console.log("correct: " + correct);
+            }
+            else if (userInput >= 0 && userInput <= 3 && userInput !== questionBank[i].correct) {
+                incorrect++;
+                console.log("Incorrect: " + incorrect);
+            }
+            else {
+                unanswered++;
+                console.log("Unanswered: " + unanswered);
+            }
         }
-        else if (userInput >= 0 && userInput <= 3 && userInput !== questionBank[i].correct) {
-            incorrect++;
-            console.log("Incorrect: " + incorrect);
-        }
-        else {
-            unanswered++;
-            console.log("Unanswered: " + unanswered);
-        }
-    }}
+    }
 
     //run function for timer
     function run() {
@@ -144,6 +145,12 @@ $(document).ready(function () {
         $("#end-page").append("Correct answers: " + correct + "<br>");
         $("#end-page").append("Incorrect answers: " + incorrect + "<br>");
         $("#end-page").append("Unanswered questions: " + unanswered + "<br>");
+        if (correct <= 5) {
+            $("#end-page").append("<br><iframe src='https://giphy.com/embed/xDQ3Oql1BN54c' width='480' height='332' frameBorder='0' class='giphy-embed' allowFullScreen></iframe><p><a href='https://giphy.com/gifs/dog-confused-i-have-no-idea-what-im-doing-xDQ3Oql1BN54c'>via GIPHY</a></p>");
+        }
+        else {
+            $("#end-page").append("<br><iframe src='https://giphy.com/embed/cEYFeE4wJ6jdDVBiiIM' width='480' height='269' frameBorder='0' class='giphy-embed' allowFullScreen></iframe><p><a href='https://giphy.com/gifs/space-astronaut-cEYFeE4wJ6jdDVBiiIM'>via GIPHY</a></p>");
+        }
         //hide main page and show end page
         $("#main-page").hide();
         $("#end-page").show();
