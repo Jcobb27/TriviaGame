@@ -1,6 +1,7 @@
 $(document).ready(function () {
     //Hide main page and show start page
     $('#main-page').css('display', 'none');
+    $('#end-page').css('display', 'none');
     $('#start-page').css('display', 'block');
 
     //On click start, show main page
@@ -13,6 +14,7 @@ $(document).ready(function () {
     var correct = 0;
     var incorrect = 0;
     var unanswered = 0;
+    var checked = false;
 
     //Question and answer bank stored in an object
     var questionBank = [
@@ -66,19 +68,51 @@ $(document).ready(function () {
         }
     ];
 
-
+    //for loop. Writing questions to page
     for (var i = 0; i < questionBank.length; i++) {
         $("#QABody").append("<p>" + questionBank[i].question + "</p>");
+        //writing answers to page
+        $("#QABody").append("<fieldset id = 'group" + i + "'>");
         for (var x = 0; x < questionBank[i].choices.length; x++) {
-            $("#QABody").append("<label class='radio-inline answers'><input type='radio' name='optradio' checked>" + questionBank[i].choices[x] + "</label>");
+            $("#QABody").append("<label class='radio-inline answers' ><input type='radio' value= " + x + " name='group" + i + "'>" + questionBank[i].choices[x] + "</label>");
         }
+        $("#QABody").append("</fieldset>");
         $("#QABody").append("<br><br>");
     }
+    //done button
+    $("#QABody").append("<button type='button' class='btn btn-lg' id='doneButton'>Done</button>");
+
+    //On click done...
+    $("#doneButton").click(function () {
+        //capture user input
+        for (var i = 0; i < questionBank.length; i++) {
+            var userInput = $('input[name= group' + i + ']:checked').val();
+            console.log("input: " + userInput);
+            //check if user input is correct or incorrect
+            if (userInput == questionBank[i].correct) {
+                correct++;
+                console.log("correct: " + correct);
+                checked = true;
+            }
+            else if (userInput !== questionBank[i].correct) {
+                incorrect++;
+                console.log("Incorrect: " + incorrect);
+                checked = true;
+            }
+        }
+        if (checked == false) {
+            unanswered++;
+            console.log("Unanswered: " + unanswered);
+        }
+
+        //show results on end page
+        $("#end-page").append("Correct answers: " + correct + "<br>");
+        $("#end-page").append("Incorrect answers: " + incorrect + "<br>");
+        $("#end-page").append("Unanswered questions: " + unanswered + "<br>");
+        //hide main page and show end page
+        $("#main-page").hide();
+        $("#end-page").show();
 
 
-    console.log(questionBank[0].question);
-    console.log(questionBank[0].choices[1]);
-
+    })
 });
-
-
